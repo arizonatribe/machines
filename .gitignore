@@ -1,0 +1,5 @@
+build/
+docs/
+coverage/
+.nyc_output/
+.env

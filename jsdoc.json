@@ -1,0 +1,47 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc"]
+  },
+  "plugins": [
+    "plugins/markdown"
+  ],
+  "source": {
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|docs)",
+    "include": ["src", "package.json", "README.md"]
+  },
+  "templates": {
+    "name": "machines",
+    "cleverLinks": false,
+    "monospaceLinks": true,
+    "useLongnameInNav": false,
+    "useCollapsibles": true,
+    "footerText": "Simplified state machines",
+    "logo": {
+      "url": "https://arizonatribe.github.io/machines/styles/logo.png",
+      "width": "1px",
+      "height": "1px",
+      "link": "https://github.com/arizonatribe/machines"
+    },
+    "default": {
+      "staticFiles": {
+        "include": ["assets/"]
+      }
+    },
+    "css": [
+      "styles/after.css"
+    ],
+    "tabNames": {
+      "api": "API",
+      "tutorials": "Examples"
+    }
+  },
+  "opts": {
+    "destination": "./docs/",
+    "encoding": "utf8",
+    "private": true,
+    "recurse": true,
+    "template": "node_modules/tui-jsdoc-template"
+  }
+}

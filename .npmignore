@@ -1,0 +1,13 @@
+.env
+.eslintrc
+.travis.yml
+assets/
+docs/
+src/
+test/
+benchmark/
+coverage/
+jsdoc.json
+nodemon.json
+rollup.config.js
+BENCHMARKS.md
