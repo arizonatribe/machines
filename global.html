@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Global | machines</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+        
+            <link type="text/css" rel="stylesheet" href="styles/after.css">
+        
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 1px; height: 1px">
+        
+            <a href="https://github.com/arizonatribe/machines" rel="noopener noreferrer" target="_blank">
+                <img src="https://arizonatribe.github.io/machines/styles/logo.png" width="100%" height="100%">
+            </a>
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">machines</a></h1>
+        
+            <span class="version">v0.1.0</span>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#createMachine">createMachine</a></li><li><a href="global.html#getNextState">getNextState</a></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>Global</h2>
+    
+</header>
+
+<article>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+                
+
+<dt>
+    
+        <h4 class="name" id="createMachine">
+            
+                <span class="type-signature"></span>createMachine<span class="signature">(stateMachine, initialState)</span><span class="type-signature"> &rarr; {function}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="index.js.html">index.js</a></code>,
+                <code><a href="index.js.html#line110">line 110</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Creates a state machine - which is managed inside a closure - that will only transition
+if name of the transition you pass into it is among those registered for the current state.
+You pass in a state machine Object and you'll have a function returned to you
+that can repeatedly receive a transition name and always return to you the next state
+(if it even changes at all).</p>
+<p>The current state will always match one of the keys in the state machine object.
+Associated with those keys are each Objects that hold the possible transitions
+that can move that state to another one.</p>
+<p>So each sub-object in the state machine holds transition names as keys and <em>states-to-transition-to</em> as values.
+The curent state can only change if a given transition's name is among those registered for the current state.
+Only registered transition names can produce changes to the current state.</p>
+<p>If you use this with Redux then you'll probably want to make the transition names match
+the names of Redux Action Types.
+That way your state machine can be used in a reducer (or a piece of Redux middleware)
+to alter a single prop on your Redux store (representing that machine's current state).</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>stateMachine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An Object of (only) Objects. Inside each of
+those Objects all values are Strings which correspond to keys on the outer Object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>initialState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The state at which the machine should be initialized
+(will default to the first key name in the state machine)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">function</span>
+
+
+
+
+
+- <p>A getNextState() function that is ready to receive your
+transition name and return the next state (which may or not be different).</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+        <h5>Example</h5>
+        
+    <pre class="prettyprint"><code>const authMachine = {
+  initial: {
+    ATTEMPT_LOGIN: 'inProgress'
+  },
+  inProgress: {
+    LOGIN_ERROR: 'error',
+    LOGOUT_ERROR: 'error',
+    LOGIN_SUCCESSFUL: 'loggedIn',
+    LOGOUT_SUCCESSFUL: 'loggedOut'
+  },
+  loggedIn: {
+    ATTEMPT_LOGOUT: 'inProgress'
+  },
+  loggedOut: {
+    ATTEMPT_LOGIN: 'inProgress'
+  },
+  error: {
+    ATTEMPT_LOGIN: 'inProgress',
+    CLEAR_ERROR: 'loggedOut'
+  }
+}
+
+const getNextAuthState = createMachine(authMachine, 'initial')
+
+getNextAuthState('LOGIN_SUCCESSFUL')
+// initial - Can't transition there yet
+getNextAuthState('CLEAR_ERROR')
+// initial - Also doesn't affect state
+getNextAuthState('ATTEMPT_LOGIN')
+// inProgress - Now we have a login attempt, which changes state
+getNextAuthState('LOGIN_SUCCESSFUL')
+// loggedIn - Advances from that pending state to logged-in
+getNextAuthState('ATTEMPT_LOGOUT')
+// inProgress - Attempting to log out
+getNextAuthState('LOGOUT_ERROR')
+// error - Now we're in an error state
+getNextAuthState('CLEAR_ERROR')
+// loggedOut - Finishes logout process</code></pre>
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="getNextState">
+            
+                <span class="type-signature"></span>getNextState<span class="signature">(currentState, transitionName, stateMachine)</span><span class="type-signature"> &rarr; {String}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="index.js.html">index.js</a></code>,
+                <code><a href="index.js.html#line35">line 35</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Compares a current state value to a transition name, using a state machine
+(Object) where all the possible states also have transition names registered
+to each one (which link to new states).
+Invoking this function will make that calculation and always return to you
+what the next state should be (which may be un-changed).
+This function is used by <code>createMachine()</code>.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>currentState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The current state - which matches one of the keys in the 'stateMachine'</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>transitionName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A string value that will cause a state change
+_if_ it matches the key name of one (or more) of the sub-objects in the 'stateMachine'</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stateMachine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An Object of (only) Objects. Inside each of
+those Objects all values are Strings which correspond to keys on the outer Object.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">String</span>
+
+
+
+
+
+- <p>The next state (which might not have changed from the current state)</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="https://arizonatribe.github.io/machines/styles/logo.png" style="width: 1px; height: 1px">
+    <div class="footer-text">Simplified state machines</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>
