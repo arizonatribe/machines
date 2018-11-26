@@ -51,11 +51,7 @@ const commands = [{
 }, {
   command: paths.babel,
   args: ['src', '--out-dir', 'build'],
-  context: { stdio: 'inherit', env: { ...env, BABEL_ENV: 'cjs' } }
-}, {
-  command: paths.babel,
-  args: ['src', '--out-dir', 'build/es'],
-  context: { stdio: 'inherit', env: { ...env, BABEL_ENV: 'es' } }
+  context: { stdio: 'inherit', env }
 }, {
   command: paths.rollup,
   args: ['-c'],
