@@ -1,3 +1,0 @@
-# machines
-
-Simplified state machines
