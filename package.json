@@ -59,7 +59,7 @@
     "fs-readdir-recursive": "1.1.0",
     "glob": "7.1.1",
     "jsdoc": "3.5.5",
-    "live-server": "1.2.0",
+    "live-server": "1.2.1",
     "nodemon": "1.11.0",
     "npm-watch": "0.4.0",
     "nyc": "13.1.0",
