@@ -65,7 +65,168 @@
     <section>
         <article class="readme"><h1>Machines</h1><p>Simplified state machines. You can use them in Redux middleware and/or reducers or baked into your components themselves.</p>
 <h2>Docs</h2><p>View the <a href="https://arizonatribe.github.io/machines/">full docs</a>. These are always in-sync with the JsDoc code annotations.</p>
-<h2>Installation</h2><pre class="prettyprint source"><code>npm install machines</code></pre><h2>Usage</h2><pre class="prettyprint source lang-javascript"><code>const authMachine = {
+<h2>Installation</h2><pre class="prettyprint source"><code>npm install machines</code></pre><h2>Usage</h2><p>This kind of state machine has no requirements for a particular JavaScript framework or a state management tool. Here are some examples on how you might use it.</p>
+<h3>Vanilla JS</h3><p>You create a function that you can invoke repeatedly whenever you have a transition to feed into it.</p>
+<pre class="prettyprint source lang-javascript"><code>import createMachine from 'machines'
+
+const authMachine = {
+  initial: {
+    ATTEMPT_LOGIN: 'inProgress'
+  },
+  inProgress: {
+    CANCEL: 'error',
+    LOGIN_ERROR: 'error',
+    LOGOUT_ERROR: 'error',
+    LOGIN_SUCCESSFUL: 'loggedIn',
+    LOGOUT_SUCCESSFUL: 'loggedOut'
+  },
+  loggedIn: {
+    ATTEMPT_LOGOUT: 'inProgress'
+  },
+  loggedOut: {
+    ATTEMPT_LOGIN: 'inProgress'
+  },
+  error: {
+    ATTEMPT_LOGIN: 'inProgress',
+    CLEAR_ERROR: 'loggedOut'
+  }
+}
+
+// Sets the initial state to 'initial' (otherwise will default to the first key on the 'authMachine'
+const getNextAuthState = createMachine(authMachine, 'initial')
+
+getNextAuthState('LOGIN_SUCCESSFUL')
+// initial - Can't transition there yet
+getNextAuthState('CLEAR_ERROR')
+// initial - Also doesn't affect state
+getNextAuthState('ATTEMPT_LOGIN')
+// inProgress - Now we have a login attempt, which changes state
+getNextAuthState('LOGIN_SUCCESSFUL')
+// loggedIn - Advances from that pending state to logged-in
+getNextAuthState('ATTEMPT_LOGOUT')
+// inProgress - Attempting to log out
+getNextAuthState('LOGOUT_ERROR')
+// error - Now we're in an error state
+getNextAuthState('CLEAR_ERROR')
+// loggedOut - Finishes logout process</code></pre><h3>React Component Context API</h3><p>Create a state machine that is placed into a React Context-Provider component, and then your Context-Consumer component can have access to the next state.</p>
+<pre class="prettyprint source lang-javascript"><code>// authProvider.js
+
+import React, {createContext, PureComponent} from 'react'
+
+// This function would get created the way you see in the earlier example
+import getNextState from './some-local-file'
+
+export const AuthContext = createContext('auth')
+const initialState = getNextState()
+
+class AuthProvider extends PureComponent {
+  state = {
+    getNextState,
+    currentState: initialState
+  }
+
+  render() {
+    return (
+      &lt;AuthContext.Provider value={this.state}>
+        {this.props.children}
+      &lt;/AuthContext.Provider>
+    )
+  }
+}
+
+export default AuthProvider</code></pre><p>After placing that <code>AuthProvider</code> somewhere at the root of your app (or at the very least, above this next component), then your component will just use the Context Consumer:</p>
+<pre class="prettyprint source lang-javascript"><code>import React from 'react'
+import {withRouter} from 'react-router-dom'
+import {AuthContext} from './authProvider'
+
+const LoginComponent = ({ history }) =>
+  &lt;AuthContext.Consumer>
+    {(currentState, getNextState) => {
+      if (currentState === 'loggedIn') {
+        this.props.history.push('/home')
+      }
+      return (
+        &lt;input type=&quot;text&quot; name=&quot;username&quot; />
+        &lt;input type=&quot;password&quot; name=&quot;password&quot; />
+        &lt;button
+          type=&quot;button&quot;
+          disabled={currentState === 'inProgress'}
+          onClick={() => getNextState('ATTEMPT_LOGIN')}
+        >
+          Login
+        &lt;/button>
+        &lt;button
+          type=&quot;button&quot;
+          onClick={() => getNextState(currentState === 'inProgress' ? 'CANCEL' : '')}
+        >
+          {currentState === 'inProgress' ? 'Cancel' : 'Clear'}
+        &lt;/button>
+      )
+    }}
+  &lt;/AuthContext.Consumer>
+
+export default withRouter(LoginComponent)</code></pre><h3>Redux Reducer</h3><p>If you want to keep a prop in a section of the Redux store to represent the current state of the &quot;auth&quot; state machine, then you can map that prop to your component's props (using the <code>connect()</code> higher-order component from <code>react-redux</code>)</p>
+<pre class="prettyprint source lang-javascript"><code>// This function would get created the way you see in the earlier example
+import getNextAuthState from './some-local-file'
+
+export const initialState = {
+  user: {},
+  currentState: getNextAuthState()
+}
+
+export default (state = initialState, action = {}) {
+  const { type, payload } = action
+  const currentState = getNextAuthState(type)
+  switch (type) {
+    case 'LOGIN_SUCCESSFUL':
+      return {
+        ...state,
+        currentState,
+        user: payload
+      }
+    case 'LOGOUT_SUCCESSFUL':
+    case 'LOGIN_ERROR':
+      return {
+        ...state,
+        currentState,
+        user: {}
+      }
+    default:
+      return { ...state, currentState }
+  }
+}</code></pre><h3>Redux Middleware</h3><p>This would be a specific use-case (one I've used before) that doesn't always make sense. But let's say you want to cancel the middleware chain if the current action type doesn't make any change to the current state. Perhaps you're worried about duplicate actions being dispatched in too short of a time window but you want to employ some logic to your debouncing strategy.</p>
+<pre class="prettyprint source lang-javascript"><code>// auth-state-machine.js
+
+import createMachine from 'machines'
+
+// Create this middleware with an extra thunk
+export default (myStateMachine = {}) => {
+  const getNextState = createMachine(myStateMachine)
+  return dispatch => next => action => {
+    const currentState = getNextState()
+    const nextState = getNextState(action.type)
+    // Only if the current state will change, do you allow the middleware chain to proceed
+    if (currentState !== nextState) {
+      next(action)
+    }
+  }
+}</code></pre><pre class="prettyprint source lang-javascript"><code>// src/configureStore.js
+
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
+import createHistory from 'history/createBrowserHistory';
+import authStateMiddleware from './auth-state-machine'
+
+import rootReducer from './rootReducer';
+import initialState from './initialState';
+
+export const history = createHistory();
+
+// You don't have to keep this separate from the middleware file
+// (might be cleaner to make this part of the auth-state-machine.js)
+// I only do this because the middleware function I've used for this
+// kind of solution involved several statemachines all in one JSON object
+const authMachine = {
   initial: {
     ATTEMPT_LOGIN: 'inProgress'
   },
@@ -87,22 +248,14 @@
   }
 }
 
-const getNextAuthState = createMachine(authMachine, 'initial')
-
-getNextAuthState('LOGIN_SUCCESSFUL')
-// initial - Can't transition there yet
-getNextAuthState('CLEAR_ERROR')
-// initial - Also doesn't affect state
-getNextAuthState('ATTEMPT_LOGIN')
-// inProgress - Now we have a login attempt, which changes state
-getNextAuthState('LOGIN_SUCCESSFUL')
-// loggedIn - Advances from that pending state to logged-in
-getNextAuthState('ATTEMPT_LOGOUT')
-// inProgress - Attempting to log out
-getNextAuthState('LOGOUT_ERROR')
-// error - Now we're in an error state
-getNextAuthState('CLEAR_ERROR')
-// loggedOut - Finishes logout process</code></pre></article>
+export default createStore(
+  rootReducer,
+  initialState,
+  applyMiddleware(
+    authStateMiddleware(authMachine),
+    thunk
+  )
+);</code></pre></article>
     </section>
 
 
