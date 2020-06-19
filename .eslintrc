@@ -19,6 +19,7 @@
         "comma-dangle": [ "error", "never" ],
         "no-underscore-dangle": "off",
         "no-await-in-loop": "off",
+        "no-nested-ternary": "off",
         "consistent-return": "off",
         "function-paren-newline": "off",
         "global-require": "off",
