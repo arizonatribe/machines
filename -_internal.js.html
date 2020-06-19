@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: _internal.js | machines</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+        
+            <link type="text/css" rel="stylesheet" href="styles/after.css">
+        
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 1px; height: 1px">
+        
+            <a href="https://github.com/arizonatribe/machines" rel="noopener noreferrer" target="_blank">
+                <img src="https://arizonatribe.github.io/machines/styles/logo.png" width="100%" height="100%">
+            </a>
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">machines</a></h1>
+        
+            <span class="version">v1.2.0</span>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#_allValuesAreObjects">_allValuesAreObjects</a></li><li><a href="global.html#_allValuesFromTransitionsAreStates">_allValuesFromTransitionsAreStates</a></li><li><a href="global.html#_isObject">_isObject</a></li><li><a href="global.html#createMachine">createMachine</a></li><li><a href="global.html#createTransitionHandler">createTransitionHandler</a></li><li><a href="global.html#getFirstState">getFirstState</a></li><li><a href="global.html#getNextState">getNextState</a></li><li><a href="global.html#nextState">nextState</a></li><li class="hidden"><a href="global.html#TransitionError">TransitionError</a></li><li><a href="global.html#validateStateMachine">validateStateMachine</a></li><li><a href="global.html#wrappedTransitionHandler">wrappedTransitionHandler</a></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Checks if a given value is an Object {}
+ *
+ * @function
+ * @name _isObject
+ * @private
+ * @sig * -> Boolean
+ * @param {*} val A value which may possibly be an object
+ * @returns {boolean} Whether or not the given values is an object
+ */
+function _isObject(val) {
+  return typeof val === 'object' &amp;&amp; val &amp;&amp; typeof val.length === 'undefined'
+}
+
+/**
+ * Checks a given object to make sure that all its values are also objects
+ *
+ * @function
+ * @name _allValuesAreObjects
+ * @private
+ * @sig {k: v} -> Boolean
+ * @param {Object&lt;string, Object&lt;string, string>>} obj An Object of (only) Objects. Inside each of those Objects all values are Strings which correspond to keys on the outer Object.
+ * @returns {boolean} Whether or not the object contains values which are all also objects
+ */
+function _allValuesAreObjects(obj) {
+  return Object.keys(obj || {}).every(k => _isObject(obj[k]))
+}
+
+/**
+ * Checks that each value the transitions lead to on a state machine are also states on the state machine
+ *
+ * @function
+ * @name _allValuesFromTransitionsAreStates
+ * @private
+ * @sig {k: v} -> Boolean
+ * @param {Object&lt;string, Object&lt;string, string>>} obj An Object of (only) Objects. Inside each of those Objects all values are Strings which correspond to keys on the outer Object.
+ * @returns {boolean} Whether or not all values that the transitions lead to are also states on the state machine
+ */
+function _allValuesFromTransitionsAreStates(obj = {}) {
+  const isInMachine = transitionState => Object.prototype.hasOwnProperty.call(obj, transitionState)
+  return Object
+    .keys(obj)
+    .map(state => obj[state])
+    .every(transitions => Object.keys(transitions).every(tstate => isInMachine(tstate)))
+}
+
+/**
+ * Checks a given state machine to make sure it is valid, and throws an error if not
+ *
+ * @function
+ * @name validateStateMachine
+ * @sig {k: v} -> undefined
+ * @throws {TypeError} If the state machine is missing or not an object
+ * @throws {TypeError} If the state machine has any values which are not objects
+ * @throws {TypeError} If the state machine's "sub-objects" has values that are not keys on the root of the object
+ *
+ * @param {Object&lt;string, Object&lt;string, string>>} stateMachine An Object of (only) Objects. Inside each of those Objects all values are Strings which correspond to keys on the outer Object.
+ */
+function validateStateMachine(stateMachine) {
+  if (!_isObject(stateMachine)) {
+    throw new TypeError('A state machines must be an Object')
+  }
+  if (!_allValuesAreObjects(stateMachine)) {
+    throw new TypeError('A state machine must be an Object of (only) Objects')
+  }
+  if (_allValuesFromTransitionsAreStates(stateMachine)) {
+    throw new TypeError(
+      'All the registered transitions (for each possible state) in a machine must lead to another state in the machine'
+    )
+  }
+}
+
+/**
+ * Gets the first state in a given state machine
+ *
+ * @function
+ * @name getFirstState
+ * @sig {k: v} -> String -> String
+ * @param {Object&lt;string, Object&lt;string, string>>} stateMachine An Object of (only) Objects. Inside each of those Objects all values are Strings which correspond to keys on the outer Object.
+ * @param {string} initialState The state at which the machine should be initialized (will default to the first key name in the state machine)
+ * @returns {string} The state value at which the machine should start
+ */
+function getFirstState(stateMachine, initialState) {
+  const currentState = initialState == null
+    ? Object.keys(stateMachine)[0]
+    : initialState
+
+  if (typeof currentState !== 'string' || !Object.prototype.hasOwnProperty.call(stateMachine, currentState)) {
+    throw new Error(`The "initialState" must be one of the keys on the "stateMachine" itself ${currentState}`)
+  }
+
+  return currentState
+}
+
+module.exports = {
+  getFirstState,
+  validateStateMachine,
+  _isObject,
+  _allValuesAreObjects,
+  _allValuesFromTransitionsAreStates
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="https://arizonatribe.github.io/machines/styles/logo.png" style="width: 1px; height: 1px">
+    <div class="footer-text">Simplified state machines</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>

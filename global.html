@@ -32,7 +32,7 @@
     <div class="title">
         <h1><a href="index.html" class="link">machines</a></h1>
         
-            <span class="version">v1.0.0</span>
+            <span class="version">v1.2.0</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -40,7 +40,7 @@
         <ul></ul>
     </div>
     
-    <div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#createMachine">createMachine</a></li><li><a href="global.html#getNextState">getNextState</a></li></ul></div>
+    <div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#_allValuesAreObjects">_allValuesAreObjects</a></li><li><a href="global.html#_allValuesFromTransitionsAreStates">_allValuesFromTransitionsAreStates</a></li><li><a href="global.html#_isObject">_isObject</a></li><li><a href="global.html#createMachine">createMachine</a></li><li><a href="global.html#createTransitionHandler">createTransitionHandler</a></li><li><a href="global.html#getFirstState">getFirstState</a></li><li><a href="global.html#getNextState">getNextState</a></li><li><a href="global.html#nextState">nextState</a></li><li class="hidden"><a href="global.html#TransitionError">TransitionError</a></li><li><a href="global.html#validateStateMachine">validateStateMachine</a></li><li><a href="global.html#wrappedTransitionHandler">wrappedTransitionHandler</a></li></ul></div>
 </nav>
 <div id="resizer"></div>
 
@@ -83,14 +83,14 @@
 
 <dt>
     
-        <h4 class="name" id="createMachine">
+        <h4 class="name" id="_allValuesAreObjects">
             
-                <span class="type-signature"></span>createMachine<span class="signature">(stateMachine, initialState)</span><span class="type-signature"> &rarr; {function}</span>
+                <span class="type-signature"><span class="icon green">private</span> </span>_allValuesAreObjects<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span>
                 
             
             <div class="container-source members">
-                <code><a href="createMachine.js.html">createMachine.js</a></code>,
-                <code><a href="createMachine.js.html#line76">line 76</a></code>
+                <code><a href="-_internal.js.html">_internal.js</a></code>,
+                <code><a href="-_internal.js.html#line15">line 15</a></code>
             </div>
             
         </h4>
@@ -102,21 +102,495 @@
 
     
     <div class="description">
-        <p>Creates a state machine - which is managed inside a closure - that will only transition
-if name of the transition you pass into it is among those registered for the current state.
-You pass in a state machine Object and you'll have a function returned to you
-that can repeatedly receive a transition name and always return to you the next state
-(if it even changes at all).</p>
+        <p>Checks a given object to make sure that all its values are also objects</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, Object.&lt;string, string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An Object of (only) Objects. Inside each of those Objects all values are Strings which correspond to keys on the outer Object.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">boolean</span>
+
+
+
+
+
+- <p>Whether or not the object contains values which are all also objects</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="_allValuesFromTransitionsAreStates">
+            
+                <span class="type-signature"><span class="icon green">private</span> </span>_allValuesFromTransitionsAreStates<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="-_internal.js.html">_internal.js</a></code>,
+                <code><a href="-_internal.js.html#line29">line 29</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Checks that each value the transitions lead to on a state machine are also states on the state machine</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, Object.&lt;string, string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An Object of (only) Objects. Inside each of those Objects all values are Strings which correspond to keys on the outer Object.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">boolean</span>
+
+
+
+
+
+- <p>Whether or not all values that the transitions lead to are also states on the state machine</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="_isObject">
+            
+                <span class="type-signature"><span class="icon green">private</span> </span>_isObject<span class="signature">(val)</span><span class="type-signature"> &rarr; {boolean}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="-_internal.js.html">_internal.js</a></code>,
+                <code><a href="-_internal.js.html#line1">line 1</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Checks if a given value is an Object {}</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>val</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A value which may possibly be an object</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">boolean</span>
+
+
+
+
+
+- <p>Whether or not the given values is an object</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="createMachine">
+            
+                <span class="type-signature"></span>createMachine<span class="signature">(stateMachine, initialState)</span><span class="type-signature"> &rarr; {function}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="createMachine.js.html">createMachine.js</a></code>,
+                <code><a href="createMachine.js.html#line4">line 4</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Creates a state machine - which is managed inside a closure - that will only transition if name of the transition you pass into it is among those registered for the current state.
+You pass in a state machine Object and you'll have a function returned to you that can repeatedly receive a transition name and always return to you the next state (if it even changes at all).</p>
 <p>The current state will always match one of the keys in the state machine object.
-Associated with those keys are each Objects that hold the possible transitions
-that can move that state to another one.</p>
+Associated with those keys are each Objects that hold the possible transitions that can move that state to another one.</p>
 <p>So each sub-object in the state machine holds transition names as keys and <em>states-to-transition-to</em> as values.
 The curent state can only change if a given transition's name is among those registered for the current state.
 Only registered transition names can produce changes to the current state.</p>
-<p>If you use this with Redux then you'll probably want to make the transition names match
-the names of Redux Action Types.
-That way your state machine can be used in a reducer (or a piece of Redux middleware)
-to alter a single prop on your Redux store (representing that machine's current state).</p>
+<p>If you use this with Redux then you'll probably want to make the transition names match the names of Redux Action Types.
+That way your state machine can be used in a reducer (or a piece of Redux middleware) to alter a single prop on your Redux store (representing that machine's current state).</p>
     </div>
     
 
@@ -158,7 +632,7 @@ to alter a single prop on your Redux store (representing that machine's current 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Object.&lt;string, Object.&lt;string, string>></span>
 
 
             
@@ -168,8 +642,7 @@ to alter a single prop on your Redux store (representing that machine's current 
 
             
 
-            <td class="description last"><p>An Object of (only) Objects. Inside each of
-those Objects all values are Strings which correspond to keys on the outer Object.</p></td>
+            <td class="description last"><p>An Object of (only) Objects. Inside each of those Objects all values are Strings which correspond to keys on the outer Object.</p></td>
         </tr>
 
     
@@ -182,7 +655,7 @@ those Objects all values are Strings which correspond to keys on the outer Objec
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -192,8 +665,7 @@ those Objects all values are Strings which correspond to keys on the outer Objec
 
             
 
-            <td class="description last"><p>The state at which the machine should be initialized
-(will default to the first key name in the state machine)</p></td>
+            <td class="description last"><p>The state at which the machine should be initialized (will default to the first key name in the state machine)</p></td>
         </tr>
 
     
@@ -212,6 +684,116 @@ those Objects all values are Strings which correspond to keys on the outer Objec
     
 
     
+    <h5>Throws:</h5>
+    <ul>
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the state machine is missing or not an object</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the state machine has any values which are not objects</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the state machine's &quot;sub-objects&quot; has values that are not keys on the root of the object</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the initialState is not one of the state values on the state machine</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">Error</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        </ul>
 
     
     <div class="container-returns">
@@ -227,8 +809,7 @@ those Objects all values are Strings which correspond to keys on the outer Objec
 
 
 
-- <p>A getNextState() function that is ready to receive your
-transition name and return the next state (which may or not be different).</p>
+- <p>A getNextState() function that is ready to receive your transition name and return the next state (which may or not be different).</p>
 
 
 
@@ -325,14 +906,14 @@ getNextAuthState('CLEAR_ERROR')
 
 <dt>
     
-        <h4 class="name" id="getNextState">
+        <h4 class="name" id="createTransitionHandler">
             
-                <span class="type-signature"></span>getNextState<span class="signature">(currentState, transitionName, stateMachine)</span><span class="type-signature"> &rarr; {String}</span>
+                <span class="type-signature"></span>createTransitionHandler<span class="signature">(handler, machine)</span><span class="type-signature"> &rarr; {function}</span>
                 
             
             <div class="container-source members">
-                <code><a href="getNextState.js.html">getNextState.js</a></code>,
-                <code><a href="getNextState.js.html#line18">line 18</a></code>
+                <code><a href="createTransitionHandler.js.html">createTransitionHandler.js</a></code>,
+                <code><a href="createTransitionHandler.js.html#line25">line 25</a></code>
             </div>
             
         </h4>
@@ -344,11 +925,516 @@ getNextAuthState('CLEAR_ERROR')
 
     
     <div class="description">
-        <p>Compares a current state value to a transition name, using a state machine
-(Object) where all the possible states also have transition names registered
-to each one (which link to new states).
-Invoking this function will make that calculation and always return to you
-what the next state should be (which may be un-changed).
+        <p>Takes a given state machine and handler and returns a function which is ready to receive the starting &quot;state&quot; value <em>and</em> any starting data, following through the entire sequence of async function until the state stops advancing.
+Note, a handler will receive the initial data, the starting &quot;state&quot; value and any (optional) dependencies to place into the context for the async functions contained in the handler.
+A handler doesn't have to be a function but can also be an object whose keys are possible &quot;state&quot; values and whose values are functions that receive the initial data, state machine, and context.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>handler</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+|
+
+<span class="param-type">Object.&lt;string, function()></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A handler function or an object of individual handler function (the keys on the object must match possible &quot;states&quot; otherwise they'll never be called)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>machine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, Object.&lt;string, string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An object whose keys are possible states and whose values are also objects (but whose keys are transition names and whose values are states they will advance to)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    <ul>
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If a state machine is not provided</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If a handler function/object is not provided</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the handler is not a function or an object whose keys do not correspond to keys in the state <code>machine</code></p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the state machine has any values which are not objects</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the state machine's &quot;sub-objects&quot; has values that are not keys on the root of the object</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        </ul>
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">function</span>
+
+
+
+
+
+- <p>A wrapped handler function that is ready to receive the (1) initial data, (2) starting &quot;state&quot; value on the machine, and (3) an object containing any dependencies the handler may have</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="getFirstState">
+            
+                <span class="type-signature"></span>getFirstState<span class="signature">(stateMachine, initialState)</span><span class="type-signature"> &rarr; {string}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="-_internal.js.html">_internal.js</a></code>,
+                <code><a href="-_internal.js.html#line73">line 73</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Gets the first state in a given state machine</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>stateMachine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, Object.&lt;string, string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An Object of (only) Objects. Inside each of those Objects all values are Strings which correspond to keys on the outer Object.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>initialState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The state at which the machine should be initialized (will default to the first key name in the state machine)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">string</span>
+
+
+
+
+
+- <p>The state value at which the machine should start</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="getNextState">
+            
+                <span class="type-signature"></span>getNextState<span class="signature">(currentState, transitionName, stateMachine)</span><span class="type-signature"> &rarr; {string}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="getNextState.js.html">getNextState.js</a></code>,
+                <code><a href="getNextState.js.html#line1">line 1</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Compares a current state value to a transition name, using a state machine (Object) where all the possible states also have transition names registered to each one (which link to new states).
+Invoking this function will make that calculation and always return to you what the next state should be (which may be un-changed).
 This function is used by <code>createMachine()</code>.</p>
     </div>
     
@@ -391,7 +1477,7 @@ This function is used by <code>createMachine()</code>.</p>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -414,7 +1500,7 @@ This function is used by <code>createMachine()</code>.</p>
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
             
@@ -438,7 +1524,7 @@ _if_ it matches the key name of one (or more) of the sub-objects in the 'stateMa
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">Object.&lt;string, Object.&lt;string, function()>></span>
 
 
             
@@ -477,7 +1563,7 @@ those Objects all values are Strings which correspond to keys on the outer Objec
 
 
 
-<span class="param-type">String</span>
+<span class="param-type">string</span>
 
 
 
@@ -533,9 +1619,824 @@ those Objects all values are Strings which correspond to keys on the outer Objec
 
 </dd>
 
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="nextState">
+            
+                <span class="type-signature"></span>nextState<span class="signature">(transition<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="createMachine.js.html">createMachine.js</a></code>,
+                <code><a href="createMachine.js.html#line73">line 73</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>A simple function that retrieves the current state or optionally advances to the next state determined by a given transition value</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>transition</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>One of the transition names registered for the current state</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">string</span>
+
+
+
+
+
+- <p>The current state (one of the root-level keys from the state machine</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="validateStateMachine">
+            
+                <span class="type-signature"></span>validateStateMachine<span class="signature">(stateMachine)</span><span class="type-signature"></span>
+                
+            
+            <div class="container-source members">
+                <code><a href="-_internal.js.html">_internal.js</a></code>,
+                <code><a href="-_internal.js.html#line47">line 47</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Checks a given state machine to make sure it is valid, and throws an error if not</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>stateMachine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, Object.&lt;string, string>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>An Object of (only) Objects. Inside each of those Objects all values are Strings which correspond to keys on the outer Object.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    <ul>
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the state machine is missing or not an object</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the state machine has any values which are not objects</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        
+            <li>
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the state machine's &quot;sub-objects&quot; has values that are not keys on the root of the object</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+</li>
+        </ul>
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="wrappedTransitionHandler">
+            
+                <span class="type-signature"></span>wrappedTransitionHandler<span class="signature">(initialData, initialState, context<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {*}</span>
+                
+            
+            <div class="container-source members">
+                <code><a href="createTransitionHandler.js.html">createTransitionHandler.js</a></code>,
+                <code><a href="createTransitionHandler.js.html#line67">line 67</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>A handler function that will advance from state to state - executing each piece of logic and/or async function the user defined, until the state can no longer advance and the current value or error is returned at that point.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>initialData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, any></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Any starting data for the handler</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>initialState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>A starting &quot;state&quot; value which should be one of the possible values on the state machine</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>context</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;string, any></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>An optional object containing any dependencies of the handler (API clients, caches, etc.)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Throws:</h5>
+    
+            
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>If the handler encounters an unexpected exception</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type"><a href="global.html#TransitionError">TransitionError</a></span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+        
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">*</span>
+
+
+
+
+
+- <p>When the handler can no longer advance to another possible state, the value of the last function it executed is returned</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
             </dl>
     
 
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <dl>
+                
+
+<dt>
+<h4 class="name" id="TransitionError">
+    TransitionError
+    
+    <div class="container-source members">
+        <code><a href="createTransitionHandler.js.html">createTransitionHandler.js</a></code>,
+        <code><a href="createTransitionHandler.js.html#line4">line 4</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Exends the base JavaScript base <code>Error</code></p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object.&lt;string, any></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The name of the error (in this case &quot;TransitionError&quot;)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data.currentState</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The current state of the state machine at the time the error was encountered</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+            </dl>
     
 
     

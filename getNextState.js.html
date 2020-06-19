@@ -34,7 +34,7 @@
     <div class="title">
         <h1><a href="index.html" class="link">machines</a></h1>
         
-            <span class="version">v1.0.0</span>
+            <span class="version">v1.2.0</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -42,7 +42,7 @@
         <ul></ul>
     </div>
     
-    <div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#createMachine">createMachine</a></li><li><a href="global.html#getNextState">getNextState</a></li></ul></div>
+    <div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#_allValuesAreObjects">_allValuesAreObjects</a></li><li><a href="global.html#_allValuesFromTransitionsAreStates">_allValuesFromTransitionsAreStates</a></li><li><a href="global.html#_isObject">_isObject</a></li><li><a href="global.html#createMachine">createMachine</a></li><li><a href="global.html#createTransitionHandler">createTransitionHandler</a></li><li><a href="global.html#getFirstState">getFirstState</a></li><li><a href="global.html#getNextState">getNextState</a></li><li><a href="global.html#nextState">nextState</a></li><li class="hidden"><a href="global.html#TransitionError">TransitionError</a></li><li><a href="global.html#validateStateMachine">validateStateMachine</a></li><li><a href="global.html#wrappedTransitionHandler">wrappedTransitionHandler</a></li></ul></div>
 </nav>
 <div id="resizer"></div>
 
@@ -55,21 +55,19 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Compares a current state value to a transition name, using a state machine
- * (Object) where all the possible states also have transition names registered
- * to each one (which link to new states).
- * Invoking this function will make that calculation and always return to you
- * what the next state should be (which may be un-changed).
+ * Compares a current state value to a transition name, using a state machine (Object) where all the possible states also have transition names registered to each one (which link to new states).
+ * Invoking this function will make that calculation and always return to you what the next state should be (which may be un-changed).
  * This function is used by `createMachine()`.
  *
- * @func
+ * @function
+ * @name getNextState
  * @sig String -> String -> {k: v} -> String
- * @param {String} currentState The current state - which matches one of the keys in the 'stateMachine'
- * @param {String} transitionName A string value that will cause a state change
+ * @param {string} currentState The current state - which matches one of the keys in the 'stateMachine'
+ * @param {string} transitionName A string value that will cause a state change
  * _if_ it matches the key name of one (or more) of the sub-objects in the 'stateMachine'
- * @param {Object} stateMachine An Object of (only) Objects. Inside each of
+ * @param {Object&lt;string, Object&lt;string, function>>} stateMachine An Object of (only) Objects. Inside each of
  * those Objects all values are Strings which correspond to keys on the outer Object.
- * @returns {String} The next state (which might not have changed from the current state)
+ * @returns {string} The next state (which might not have changed from the current state)
  */
 function getNextState(currentState, transitionName, stateMachine = {}) {
   const registeredTransitions = stateMachine[currentState]
