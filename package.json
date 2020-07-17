@@ -2,7 +2,7 @@
   "name": "machines",
   "description": "Simplified state machines",
   "main": "src/index.js",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "private": true,
   "license": "MIT",
   "author": "David Nunez <arizonatribe@gmail.com>",

@@ -75,31 +75,36 @@ function createTransitionHandler(handler, machine) {
    * @param {Object<string, any>} [context] An optional object containing any dependencies of the handler (API clients, caches, etc.)
    * @returns {*} When the handler can no longer advance to another possible state, the value of the last function it executed is returned
    */
-  return async function wrappedTransitionHandler(initialData, initialState, context) {
-    const nextState = createMachine(machine, initialState || 'initial')
+  return function wrappedTransitionHandler(initialData, initialState, context) {
     let currentState
-    let result = initialData
+    const nextState = createMachine(machine, initialState || 'initial')
 
-    try {
-      while (currentState !== nextState()) {
+    function runNextTransition(r) {
+      if (r && /Error$/.test(r.constructor.name)) {
+        return Promise.reject(r)
+      } else if (currentState !== nextState()) {
         currentState = nextState()
-        result = await getStateHandler(currentState)(result, nextState, context)
-      }
+        const response = getStateHandler(currentState)(r, nextState, context)
 
-      if (result && /Error$/.test(result.constructor.name)) {
-        throw result
+        if (response != null && typeof response.then === 'function') {
+          return response.then(res => runNextTransition(res))
+        } else {
+          return runNextTransition(response)
+        }
+      } else {
+        return Promise.resolve(r)
       }
+    }
 
-      return result
-    } catch (err) {
+    return runNextTransition(initialData).catch(err => {
       throw new TransitionError(
         err.message || err.toString(),
         nextState(), {
-          ...((err.data && typeof err.data === 'object') || {}),
-          ...((err.extensions && typeof err.extensions === 'object') || {})
+          ...((err.data && typeof err.data === 'object' && err.data) || {}),
+          ...((err.extensions && typeof err.extensions === 'object' && err.extensions) || {})
         }
       )
-    }
+    })
   }
 }
 
