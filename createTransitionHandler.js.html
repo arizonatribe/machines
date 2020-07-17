@@ -34,7 +34,7 @@
     <div class="title">
         <h1><a href="index.html" class="link">machines</a></h1>
         
-            <span class="version">v1.2.0</span>
+            <span class="version">v1.2.3</span>
         
     </div>
     <div class="search-container" id="search-container">
@@ -131,31 +131,36 @@ function createTransitionHandler(handler, machine) {
    * @param {Object&lt;string, any>} [context] An optional object containing any dependencies of the handler (API clients, caches, etc.)
    * @returns {*} When the handler can no longer advance to another possible state, the value of the last function it executed is returned
    */
-  return async function wrappedTransitionHandler(initialData, initialState, context) {
-    const nextState = createMachine(machine, initialState || 'initial')
+  return function wrappedTransitionHandler(initialData, initialState, context) {
     let currentState
-    let result = initialData
+    const nextState = createMachine(machine, initialState || 'initial')
 
-    try {
-      while (currentState !== nextState()) {
+    function runNextTransition(r) {
+      if (r &amp;&amp; /Error$/.test(r.constructor.name)) {
+        return Promise.reject(r)
+      } else if (currentState !== nextState()) {
         currentState = nextState()
-        result = await getStateHandler(currentState)(result, nextState, context)
-      }
+        const response = getStateHandler(currentState)(r, nextState, context)
 
-      if (result &amp;&amp; /Error$/.test(result.constructor.name)) {
-        throw result
+        if (response != null &amp;&amp; typeof response.then === 'function') {
+          return response.then(res => runNextTransition(res))
+        } else {
+          return runNextTransition(response)
+        }
+      } else {
+        return Promise.resolve(r)
       }
+    }
 
-      return result
-    } catch (err) {
+    return runNextTransition(initialData).catch(err => {
       throw new TransitionError(
         err.message || err.toString(),
         nextState(), {
-          ...((err.data &amp;&amp; typeof err.data === 'object') || {}),
-          ...((err.extensions &amp;&amp; typeof err.extensions === 'object') || {})
+          ...((err.data &amp;&amp; typeof err.data === 'object' &amp;&amp; err.data) || {}),
+          ...((err.extensions &amp;&amp; typeof err.extensions === 'object' &amp;&amp; err.extensions) || {})
         }
       )
-    }
+    })
   }
 }
 
