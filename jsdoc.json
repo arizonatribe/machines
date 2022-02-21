@@ -20,8 +20,8 @@
     "footerText": "Simplified state machines",
     "logo": {
       "url": "https://arizonatribe.github.io/machines/styles/logo.png",
-      "width": "1px",
-      "height": "1px",
+      "width": "228px",
+      "height": "229px",
       "link": "https://github.com/arizonatribe/machines"
     },
     "default": {
@@ -40,7 +40,6 @@
   "opts": {
     "destination": "./docs/",
     "encoding": "utf8",
-    "private": true,
     "recurse": true,
     "template": "node_modules/tui-jsdoc-template"
   }

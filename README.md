@@ -1,5 +1,11 @@
 # Machines
 
+<img
+  src="https://raw.githubusercontent.com/arizonatribe/machines/master/assets/styles/logo.png"
+  alt="Machines JS"
+  align="right"
+/>
+
 Simplified state machines. You can use them in Redux middleware and/or reducers or baked into your components themselves.
 
 ## Docs
